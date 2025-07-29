@@ -5,16 +5,22 @@ klippy_uds_address: /home/mick/printer_data/comms/klippy.sock
 
 [authorization]
 trusted_clients:
+    10.0.0.0/8
+    127.0.0.0/8
+    169.254.0.0/16
+    172.16.0.0/12
     192.168.0.0/16
-    127.0.0.0/16
+    FE80::/10
+    ::1/128
 cors_domains:
     *.lan
     *.local
+    *.internal
     *://localhost
     *://localhost:*
     *://my.mainsail.xyz
     *://app.fluidd.xyz
-    
+
 [octoprint_compat]
 
 [history]
@@ -23,31 +29,28 @@ cors_domains:
 channel: dev
 refresh_interval: 168
 
-[update_manager fluidd]
-path: /home/mick/fluidd
-repo: fluidd-core/fluidd
-channel: stable
-type: web
-persistent_files:
-    config.json
-    
 [update_manager fluidd-config]
-managed_services: klipper
-origin: https://github.com/fluidd-core/fluidd-config.git
-path: /home/mick/fluidd-config
-primary_branch: master
 type: git_repo
+primary_branch: master
+path: ~/fluidd-config
+origin: https://github.com/fluidd-core/fluidd-config.git
+managed_services: klipper
+
+[update_manager fluidd]
+type: web
+channel: stable
+repo: fluidd-core/fluidd
+path: ~/fluidd
+
+[update_manager mainsail-config]
+type: git_repo
+primary_branch: master
+path: ~/mainsail-config
+origin: https://github.com/mainsail-crew/mainsail-config.git
+managed_services: klipper
 
 [update_manager mainsail]
-path: /home/mick/mainsail
-repo: mainsail-crew/mainsail
-channel: stable
 type: web
-persistent_files:
-    config.json
-[update_manager klipper-backup]
-type: git_repo
-path: ~/klipper-backup
-origin: https://github.com/Staubgeborener/klipper-backup.git
-managed_services: moonraker
-primary_branch: main
+channel: stable
+repo: mainsail-crew/mainsail
+path: ~/mainsail
